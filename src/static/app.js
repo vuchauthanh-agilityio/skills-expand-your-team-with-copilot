@@ -519,6 +519,23 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
+    // Build social sharing URLs for this activity
+    const shareUrlObj = new URL(window.location.href);
+    shareUrlObj.searchParams.set("activity", name);
+    const shareUrl = shareUrlObj.toString();
+    const shareText = `Check out ${name} at Mergington High School!`;
+    const shareHtml = `
+      <div class="share-section">
+        <span class="share-label">Share:</span>
+        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}"
+           target="_blank" rel="noopener noreferrer" class="share-button share-twitter" aria-label="Share on X (Twitter)">𝕏</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"
+           target="_blank" rel="noopener noreferrer" class="share-button share-facebook" aria-label="Share on Facebook">f</a>
+        <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + shareUrl)}"
+           target="_blank" rel="noopener noreferrer" class="share-button share-whatsapp" aria-label="Share on WhatsApp">W</a>
+      </div>
+    `;
+
     activityCard.innerHTML = `
       ${tagHtml}
       <h4>${name}</h4>
@@ -552,6 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .join("")}
         </ul>
       </div>
+      ${shareHtml}
       <div class="activity-card-actions">
         ${
           currentUser
